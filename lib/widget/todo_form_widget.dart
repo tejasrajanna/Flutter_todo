@@ -32,7 +32,8 @@ class TodoFormWidget extends StatelessWidget {
         ),
         buildButton(),
       ],
-    ));
+    )
+    );
   }
 
   Widget buildTitle() => TextFormField(

@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
       onPressed: ()=> showDialog (
         context: context,
         builder: (context)=> AddTodoDialogWidget(),
-        barrierDismissible: false
+        //barrierDismissible: false
         ),
       child: Icon(Icons.add),),
     );
