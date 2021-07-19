@@ -19,14 +19,18 @@ class TodoListWidget extends StatelessWidget {
             ),
           )
         : ListView.separated(
-      physics: BouncingScrollPhysics(),
-      padding: EdgeInsets.all(16),
-      separatorBuilder: (context, index) => Container(height: 8,),
-        itemBuilder: (context, index) {
-          final todo = todos[index];
-          return TodoWidget(todo: todo);
-        },
-        itemCount: todos.length
-        );
+            physics: BouncingScrollPhysics(),
+            padding: EdgeInsets.all(16),
+            separatorBuilder: (context, index) => Container(
+                  height: 8,
+                ),
+            itemBuilder: (context, index) {
+              final todo = todos[index];
+              return TodoWidget(todo: todo);
+            },
+            itemCount: todos.length);
+
+//return CircularProgressIndicator();
+    
   }
 }

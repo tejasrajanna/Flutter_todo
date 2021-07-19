@@ -1,18 +1,15 @@
 import 'package:flutter/material.dart';
 
 class TodoFormWidget extends StatelessWidget {
-  final String title;
-  final String description;
-  final ValueChanged<String> onChangedTitle;
-  final ValueChanged<String> onChangedDescription;
+  
+  final String details;
+  final ValueChanged<String> onChangedDetails;
   final VoidCallback onSavedTodo;
 
   const TodoFormWidget({
     Key? key,
-    this.title = '',
-    this.description = '',
-    required this.onChangedTitle,
-    required this.onChangedDescription,
+    this.details = '',
+    required this.onChangedDetails,
     required this.onSavedTodo,
   }) : super(key: key);
 
@@ -22,11 +19,7 @@ class TodoFormWidget extends StatelessWidget {
         child: Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        buildTitle(),
-        SizedBox(
-          height: 8,
-        ),
-        buildDescription(),
+        buildDetails(),
         SizedBox(
           height: 32,
         ),
@@ -36,29 +29,35 @@ class TodoFormWidget extends StatelessWidget {
     );
   }
 
-  Widget buildTitle() => TextFormField(
-        maxLines: 1,
-        initialValue: title,
-        onChanged: onChangedTitle,
-        validator: (title) {
-          if (title!.isEmpty) {
-            return 'Title cannot be empty';
+  // Widget buildTitle() => TextFormField(
+  //       maxLines: 1,
+  //       initialValue: title,
+  //       onChanged: onChangedTitle,
+  //       validator: (title) {
+  //         if (title!.isEmpty) {
+  //           return 'Title cannot be empty';
+  //         }
+  //         return null;
+  //       },
+  //       decoration: InputDecoration(
+  //         border: UnderlineInputBorder(),
+  //         labelText: 'Title',
+  //       ),
+  //     );
+
+  Widget buildDetails() => TextFormField(
+        maxLines: 3,
+        initialValue: details,
+        onChanged: onChangedDetails,
+        validator: (details) {
+          if (details!.isEmpty) {
+            return 'Details cannot be empty';
           }
           return null;
         },
         decoration: InputDecoration(
           border: UnderlineInputBorder(),
-          labelText: 'Title',
-        ),
-      );
-
-  Widget buildDescription() => TextFormField(
-        maxLines: 3,
-        initialValue: description,
-        onChanged: onChangedDescription,
-        decoration: InputDecoration(
-          border: UnderlineInputBorder(),
-          labelText: 'Description',
+          labelText: 'Details',
         ),
       );
 

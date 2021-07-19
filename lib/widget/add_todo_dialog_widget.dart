@@ -13,53 +13,51 @@ class AddTodoDialogWidget extends StatefulWidget {
 
 class _AddTodoDialogWidgetState extends State<AddTodoDialogWidget> {
   final _formKey = GlobalKey<FormState>();
-  String title = '';
-  String description = '';
+
+  String details = '';
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       content: Form(
         key: _formKey,
-        child: Expanded(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Add Todo',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Add Todo',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
               ),
-              const SizedBox(height: 8),
-              TodoFormWidget(
-                onChangedTitle: (title) => setState(() => this.title = title),
-                onChangedDescription: (description) =>
-                    setState(() => this.description = description),
-                onSavedTodo: addTodo,
-              )
-            ],
-          ),
+            ),
+            const SizedBox(height: 8),
+            TodoFormWidget(
+              onChangedDetails: (details) =>
+                  setState(() => this.details = details),
+              onSavedTodo: addTodo,
+            )
+          ],
         ),
       ),
     );
   }
 
   void addTodo() {
+    final provider = Provider.of<TodosProvider>(context, listen: false);
     final isValid = _formKey.currentState!.validate();
     if (!isValid) {
+      print("Not valid");
       return;
     } else {
+      print("Trying to add");
       final todo = Todo(
-        id: DateTime.now().toString(),
-        title: title,
-        description: description,
-        createdTime: DateTime.now(),
+        id: provider.todos.length + 1,
+        status: false,
+        details: details,
       );
 
-      final provider = Provider.of<TodosProvider>(context, listen: false);
       provider.addTodo(todo);
 
       Navigator.of(context).pop();

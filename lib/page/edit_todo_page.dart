@@ -16,14 +16,12 @@ class EditTodoPage extends StatefulWidget {
 
 class _EditTodoPageState extends State<EditTodoPage> {
   final _formKey = GlobalKey<FormState>();
-  String title = '';
-  String description = '';
+  String details = '';
 
   @override
   void initState() {
     super.initState();
-    title = widget.todo.title;
-    description = widget.todo.description;
+    details = widget.todo.details;
   }
 
   @override
@@ -36,7 +34,7 @@ class _EditTodoPageState extends State<EditTodoPage> {
               onPressed: () {
                 final provider =
                     Provider.of<TodosProvider>(context, listen: false);
-                provider.removeTodo(widget.todo);
+                provider.removeTodo(widget.todo.id);
                 Navigator.of(context).pop();
               },
               icon: Icon(Icons.delete))
@@ -47,11 +45,9 @@ class _EditTodoPageState extends State<EditTodoPage> {
         child: Form(
           key: _formKey,
           child: TodoFormWidget(
-            title: title,
-            description: description,
-            onChangedTitle: (title) => setState(() => this.title = title),
-            onChangedDescription: (description) =>
-                setState(() => this.description = description),
+            details: details,
+            onChangedDetails: (details) =>
+                setState(() => this.details = details),
             onSavedTodo: saveTodo,
           ),
         ),
@@ -65,7 +61,8 @@ class _EditTodoPageState extends State<EditTodoPage> {
       return;
     } else {
       final provider = Provider.of<TodosProvider>(context, listen: false);
-      provider.updateTodo(widget.todo, title, description);
+      widget.todo.details = details;
+      provider.updateTodo(widget.todo);
       Navigator.of(context).pop();
     }
   }

@@ -19,7 +19,7 @@ class TodoWidget extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: Slidable(
-        key: Key(todo.id),
+        //key: Key(todo.id),
         child: buildTodo(context),
         actionPane: SlidableDrawerActionPane(),
         actions: [
@@ -43,8 +43,8 @@ class TodoWidget extends StatelessWidget {
   }
 
   Widget buildTodo(BuildContext context) {
-    return GestureDetector
-    ( onDoubleTap: () => editTodo(context, todo),
+    return GestureDetector(
+      onDoubleTap: () => editTodo(context, todo),
       child: Container(
         color: Colors.white,
         padding: EdgeInsets.all(20),
@@ -53,14 +53,15 @@ class TodoWidget extends StatelessWidget {
             Checkbox(
               activeColor: Theme.of(context).primaryColor,
               checkColor: Colors.white,
-              value: todo.isDone,
+              value: todo.status,
               onChanged: (_) {
                 final provider =
                     Provider.of<TodosProvider>(context, listen: false);
-                final isDone = provider.toggleTodoStatus(todo);
+                todo.status = !todo.status;
+                provider.toggleTodoStatus(todo);
                 Utils.showSnackBar(
                   context,
-                  isDone ? 'Task Completed' : 'Task marked incomplete',
+                  todo.status ? 'Task Completed' : 'Task marked incomplete',
                 );
               },
             ),
@@ -68,27 +69,19 @@ class TodoWidget extends StatelessWidget {
               width: 20,
             ),
             Expanded(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  todo.title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
-                    fontSize: 22,
-                  ),
-                ),
-                if (todo.description.isNotEmpty)
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                   Container(
                     margin: EdgeInsets.only(top: 4),
                     child: Text(
-                      todo.description,
+                      todo.details,
                       style: TextStyle(fontSize: 20, height: 1.5),
                     ),
                   )
-              ],
-            ))
+                ],
+              ),
+            ),
           ],
         ),
       ),
@@ -97,15 +90,14 @@ class TodoWidget extends StatelessWidget {
 
   void deleteTodo(BuildContext context, Todo todo) {
     final provider = Provider.of<TodosProvider>(context, listen: false);
-    provider.removeTodo(todo);
+    provider.removeTodo(todo.id);
 
     Utils.showSnackBar(context, 'Deleted the task');
   }
 
   void editTodo(BuildContext context, Todo todo) {
-    Navigator.of(context).push(MaterialPageRoute (
+    Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => EditTodoPage(todo: todo),
-    )
-    );
+    ));
   }
 }

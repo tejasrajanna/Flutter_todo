@@ -9,6 +9,7 @@ void main() {
 
 class MyApp extends StatelessWidget {
   static final String title = 'Todo App';
+  
 
   @override
   Widget build(BuildContext context) {
@@ -26,4 +27,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

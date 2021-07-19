@@ -35,6 +35,9 @@ dependencies:
   #slidable
   flutter_slidable: ^0.6.0
 
+  #http
+  http: ^0.13.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

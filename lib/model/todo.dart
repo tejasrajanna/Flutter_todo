@@ -1,20 +1,28 @@
 
-class TodoField {
-  static const createdTime = 'createdTime';
-}
-
 class Todo {
-  DateTime createdTime;
-  String title;
-  String id;
-  String description;
-  bool isDone;
+  int id;
+  String details;
+  bool status;
 
   Todo({
-    required this.createdTime,
-    required this.title,
-    this.description = '',
-    this.id='',
-    this.isDone = false,
+    this.details = '',
+    required this.id,
+    this.status = false,
   });
+
+  factory Todo.fromJson(Map<String, dynamic> json) {
+    return Todo(
+      id: json['id'] as int,
+      details: json['details'] as String,
+      status: json['status'] as bool
+    );
+  }
+
+   Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'details': details,
+      'status':status
+    };
+  }
 }
